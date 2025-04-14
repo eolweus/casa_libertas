@@ -176,129 +176,160 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full z-50">
-      <div className="w-full relative">
-        {/* Logo and icons row */}
-        <div className="flex items-center justify-between py-6 relative z-30 bg-black/30 backdrop-blur-sm text-white px-4">
+    <header
+      className={`absolute top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+        activeMenu ? "bg-white" : "bg-transparent"
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between py-4">
           {/* Left icons */}
-          <div className="flex items-center gap-4">
-            <Link href="#" className="text-sm hover:text-gray-300">
+          <div className="flex items-center space-x-4">
+            <Link
+              href="#"
+              className={`text-sm hover:opacity-70 ${
+                activeMenu ? "text-black" : "text-white"
+              }`}
+            >
               <MapPin className="h-5 w-5" />
               <span className="sr-only">Store Locator</span>
             </Link>
-            <Link href="#" className="text-sm hover:text-gray-300">
+            <Link
+              href="#"
+              className={`text-sm hover:opacity-70 ${
+                activeMenu ? "text-black" : "text-white"
+              }`}
+            >
               <User className="h-5 w-5" />
               <span className="sr-only">Account</span>
             </Link>
           </div>
 
           {/* Logo */}
-          <div className="text-center absolute left-1/2 transform -translate-x-1/2">
+          <div className="text-center">
             <Link href="/" className="inline-block">
-              <h1 className="text-2xl font-light tracking-widest">
+              <h1
+                className={`text-2xl font-light tracking-widest ${
+                  activeMenu ? "text-black" : "text-white"
+                }`}
+              >
                 CASA LIBERTAS
               </h1>
             </Link>
           </div>
 
           {/* Right icons */}
-          <div className="flex items-center gap-4">
-            <button className="text-sm hover:text-gray-300">
+          <div className="flex items-center space-x-4">
+            <button
+              className={`text-sm hover:opacity-70 ${
+                activeMenu ? "text-black" : "text-white"
+              }`}
+            >
               <Search className="h-5 w-5" />
               <span className="sr-only">Search</span>
             </button>
-            <Link href="#" className="text-sm hover:text-gray-300">
+            <Link
+              href="#"
+              className={`text-sm hover:opacity-70 ${
+                activeMenu ? "text-black" : "text-white"
+              }`}
+            >
               <Heart className="h-5 w-5" />
               <span className="sr-only">Wishlist</span>
             </Link>
-            <Link href="#" className="text-sm hover:text-gray-300">
+            <Link
+              href="#"
+              className={`text-sm hover:opacity-70 ${
+                activeMenu ? "text-black" : "text-white"
+              }`}
+            >
               <ShoppingBag className="h-5 w-5" />
               <span className="sr-only">Shopping Bag</span>
             </Link>
           </div>
         </div>
 
-        {/* Menu navigation */}
+        {/* Menu items */}
         <div
-          className="relative z-20 text-white"
+          className="flex justify-center space-x-6 py-4 text-sm tracking-wider"
           onMouseLeave={handleMouseLeave}
         >
-          <nav className="bg-transparent px-4">
-            <ul className="flex justify-center gap-8 py-4 text-xs font-light tracking-widest">
-              {menuItems.map((item) => (
-                <li
-                  key={item.name}
-                  onMouseEnter={() => handleMouseEnter(item.name)}
-                  className="relative"
-                >
-                  <Link
-                    href={item.href}
-                    className={`hover:text-gray-300 transition-colors duration-300 ${
-                      activeMenu === item.name ? "border-b border-white" : ""
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
-          {/* Mega menu dropdown - only visible when a menu item is being hovered */}
-          {activeMenu && menuData[activeMenu] && (
+          {menuItems.map((item) => (
             <div
-              className="absolute left-0 right-0 top-full w-screen bg-black/70 backdrop-blur-md text-white border-t border-gray-700 shadow-md transition-all duration-300"
-              onMouseEnter={() => setActiveMenu(activeMenu)}
+              key={item.name}
+              className="relative"
+              onMouseEnter={() => handleMouseEnter(item.name)}
             >
-              <div className="w-full py-8">
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-8 px-8 max-w-none">
-                  {/* Categories */}
-                  <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {menuData[activeMenu].categories.map((category, idx) => (
-                      <div key={idx} className="flex flex-col gap-4">
-                        <h3 className="font-medium text-xs tracking-wider">
-                          {category.title}
-                        </h3>
-                        <ul className="flex flex-col gap-4">
-                          {category.items.map((item, itemIdx) => (
-                            <li key={itemIdx}>
-                              <Link
-                                href={item.href}
-                                className="text-xs hover:text-gray-300 transition-colors"
-                              >
-                                {item.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
+              <Link
+                href={item.href}
+                className={`hover:opacity-70 ${
+                  activeMenu === item.name
+                    ? "border-b border-black text-black"
+                    : activeMenu
+                    ? "text-black"
+                    : "text-white"
+                }`}
+              >
+                {item.name}
+              </Link>
+            </div>
+          ))}
+        </div>
 
-                  {/* Featured image */}
-                  {menuData[activeMenu].featuredImage && (
-                    <div className="md:col-span-2">
-                      <div className="relative h-[300px] w-full overflow-hidden">
-                        <Image
-                          src={
-                            menuData[activeMenu].featuredImage!.src ||
-                            "/placeholder.svg"
-                          }
-                          alt={menuData[activeMenu].featuredImage!.alt}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <p className="mt-4 text-xs font-medium tracking-wider">
-                        {menuData[activeMenu].featuredImage!.caption}
-                      </p>
+        {/* Mega menu dropdown */}
+        {activeMenu && menuData[activeMenu] && (
+          <div
+            className="w-full transition-opacity duration-300"
+            onMouseEnter={() => setActiveMenu(activeMenu)}
+          >
+            <div className="container mx-auto px-4 py-8">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                {/* Categories */}
+                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {menuData[activeMenu].categories.map((category, idx) => (
+                    <div key={idx} className="space-y-4">
+                      <h3 className="font-medium text-sm tracking-wider">
+                        {category.title}
+                      </h3>
+                      <ul className="space-y-4">
+                        {category.items.map((item, itemIdx) => (
+                          <li key={itemIdx}>
+                            <Link
+                              href={item.href}
+                              className="text-sm hover:text-gray-500"
+                            >
+                              {item.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
-                  )}
+                  ))}
                 </div>
+
+                {/* Featured image */}
+                {menuData[activeMenu].featuredImage && (
+                  <div className="md:col-span-2">
+                    <div className="relative h-[300px] w-full overflow-hidden">
+                      <Image
+                        src={
+                          menuData[activeMenu].featuredImage!.src ||
+                          "/placeholder.svg"
+                        }
+                        alt={menuData[activeMenu].featuredImage!.alt}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <p className="mt-4 text-sm font-medium tracking-wider">
+                      {menuData[activeMenu].featuredImage!.caption}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </header>
   );
