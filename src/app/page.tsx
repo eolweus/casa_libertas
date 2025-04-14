@@ -2,15 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-// Product type for type safety
-type Product = {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  imageSrc: string;
-};
-
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
@@ -187,7 +178,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <h3 className="text-sm font-medium mb-4">CUSTOMER CARE</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="flex flex-col gap-2 text-sm text-gray-600">
                 <li>
                   <Link href="#" className="hover:underline">
                     Contact Us
@@ -212,7 +203,7 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-sm font-medium mb-4">ABOUT</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="flex flex-col gap-2 text-sm text-gray-600">
                 <li>
                   <Link href="#" className="hover:underline">
                     Our Heritage
@@ -237,7 +228,7 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-sm font-medium mb-4">LEGAL</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="flex flex-col gap-2 text-sm text-gray-600">
                 <li>
                   <Link href="#" className="hover:underline">
                     Terms & Conditions
@@ -280,7 +271,7 @@ export default function Home() {
                 © {new Date().getFullYear()} Luxury Jewelry. All rights
                 reserved.
               </p>
-              <div className="flex space-x-6">
+              <div className="flex gap-6">
                 <Link href="#" className="text-gray-500 hover:text-black">
                   <span className="sr-only">Instagram</span>
                   <svg

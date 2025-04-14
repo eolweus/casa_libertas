@@ -1,7 +1,6 @@
-import type { Config } from "tailwindcss";
-
+import type { Config } from "tailwindcss"
 const config = {
-  darkMode: "class",
+  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -10,13 +9,7 @@ const config = {
     "*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
+    // Tailwind 4 uses container queries by default
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -74,7 +67,8 @@ const config = {
       },
     },
   },
+  // Tailwind 4 no longer requires the JIT mode to be specified
   plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+} satisfies Config
 
-export default config;
+export default config
