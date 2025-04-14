@@ -1,46 +1,34 @@
-import "./globals.css"
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
-import Link from "next/link"
-import { Heart, MapPin, Search, ShoppingBag, User } from "lucide-react"
-import MegaMenu from "@/components/mega-menu"
+import type React from "react";
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { ThemeProvider } from "@/components/theme-provider";
+import Link from "next/link";
+import { Heart, MapPin, Search, ShoppingBag, User } from "lucide-react";
+import MegaMenu from "@/components/mega-menu";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-sans",
-})
+const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "Luxury Jewelry | Timeless Elegance",
   description: "Discover our collection of handcrafted luxury jewelry pieces",
-  keywords: ["jewelry", "luxury", "necklaces", "rings", "bracelets", "buccellati"],
-  authors: [{ name: "Luxury Jewelry" }],
-  creator: "Luxury Jewelry",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans`}>
-        <ThemeProvider 
-          attribute="class" 
-          defaultTheme="light" 
-          enableSystem 
+    <html lang="en">
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
           disableTransitionOnChange
-          storageKey="luxury-jewelry-theme"
         >
           {/* Top announcement bar */}
-          <div className="bg-black py-2 text-center text-xs text-white">
+          <div className="bg-pink-500 py-2 text-center text-xs text-white">
             <p>Complimentary shipping on all orders</p>
           </div>
 
@@ -63,7 +51,9 @@ export default function RootLayout({
                 {/* Logo */}
                 <div className="text-center">
                   <Link href="/" className="inline-block">
-                    <h1 className="text-2xl font-light tracking-widest">BUCCELLATI</h1>
+                    <h1 className="text-2xl font-light tracking-widest">
+                      BUCCELLATI
+                    </h1>
                   </Link>
                 </div>
 
@@ -93,5 +83,5 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
