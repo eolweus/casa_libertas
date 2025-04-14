@@ -1,0 +1,91 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Definitions -->
+  <defs>
+    <!-- Golden gradient for accents -->
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#f9e076;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#d4af37;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Pattern definition -->
+    <pattern id="luxuryPattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#f9f9f9"/>
+      <path d="M0 0L40 40M40 0L0 40" stroke="#f0f0f0" stroke-width="1"/>
+    </pattern>
+    
+    <!-- Diamond shape for corners -->
+    <symbol id="diamond" viewBox="0 0 20 20">
+      <path d="M10 0L20 10L10 20L0 10Z" fill="url(#goldGradient)"/>
+    </symbol>
+  </defs>
+  
+  <!-- Background with pattern -->
+  <rect width="100%" height="100%" fill="white"/>
+  <rect width="100%" height="100%" fill="url(#luxuryPattern)"/>
+  
+  <!-- Border frame -->
+  <rect x="40" y="40" width="1120" height="720" stroke="url(#goldGradient)" stroke-width="2" fill="none"/>
+  <rect x="60" y="60" width="1080" height="680" stroke="#e5e5e5" stroke-width="1" fill="none"/>
+  
+  <!-- Corner diamonds -->
+  <use href="#diamond" x="30" y="30" width="20" height="20"/>
+  <use href="#diamond" x="1150" y="30" width="20" height="20"/>
+  <use href="#diamond" x="30" y="750" width="20" height="20"/>
+  <use href="#diamond" x="1150" y="750" width="20" height="20"/>
+  
+  <!-- Decorative lines -->
+  <line x1="600" y1="60" x2="600" y2="150" stroke="url(#goldGradient)" stroke-width="1"/>
+  <line x1="600" y1="650" x2="600" y2="740" stroke="url(#goldGradient)" stroke-width="1"/>
+  
+  <!-- Main content -->
+  <g transform="translate(600, 400)">
+    <!-- Circular background -->
+    <circle cx="0" cy="0" r="150" fill="white" stroke="#e5e5e5" stroke-width="1"/>
+    
+    <!-- Text elements -->
+    <text 
+      x="0" 
+      y="-20" 
+      font-family="'Times New Roman', serif" 
+      font-size="60" 
+      font-weight="300"
+      letter-spacing="5"
+      fill="#333333"
+      text-anchor="middle"
+      dominant-baseline="middle">
+      BUCCELLATI
+    </text>
+    
+    <text 
+      x="0" 
+      y="40" 
+      font-family="'Times New Roman', serif" 
+      font-size="24" 
+      font-weight="300"
+      font-style="italic"
+      letter-spacing="2"
+      fill="#666666"
+      text-anchor="middle"
+      dominant-baseline="middle">
+      Luxury Collection
+    </text>
+    
+    <!-- Decorative line under text -->
+    <line x1="-80" y1="70" x2="80" y2="70" stroke="url(#goldGradient)" stroke-width="1"/>
+  </g>
+  
+  <!-- Bottom tagline -->
+  <text 
+    x="600" 
+    y="680" 
+    font-family="'Times New Roman', serif" 
+    font-size="14" 
+    font-weight="300"
+    letter-spacing="3"
+    fill="#999999"
+    text-anchor="middle">
+    SINCE 1919
+  </text>
+</svg>
+
