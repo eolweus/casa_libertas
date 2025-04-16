@@ -181,7 +181,7 @@ export default function Header() {
         activeMenu ? "bg-white" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Left icons */}
           <div className="flex items-center space-x-4">
@@ -281,6 +281,7 @@ export default function Header() {
           <div
             className="w-full transition-opacity duration-300"
             onMouseEnter={() => setActiveMenu(activeMenu)}
+            onMouseLeave={handleMouseLeave}
           >
             <div className="container mx-auto px-4 py-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

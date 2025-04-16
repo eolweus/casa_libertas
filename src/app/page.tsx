@@ -8,9 +8,10 @@ export default function Home() {
       <main>
         {/* Hero section */}
         <section className="relative">
-          <div className="relative h-[80vh] w-full">
+          <div className="relative h-[100vh] w-full">
             <Image
-              src="/placeholder.svg?height=1080&width=1920"
+              // src="/placeholder.svg?height=1080&width=1920"
+              src="https://images.unsplash.com/photo-1664286074240-d7059e004dff?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
               alt="Luxury jewelry collection"
               fill
               priority
