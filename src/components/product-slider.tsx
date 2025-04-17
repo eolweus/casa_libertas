@@ -141,8 +141,12 @@ export default function ProductSlider({
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
-              <h3 className="text-base font-light mb-1">{product.title}</h3>
-              <p className="text-sm text-gray-700">{product.price}</p>
+              <h3 className="text-base font-light mb-1 text-center">
+                {product.title}
+              </h3>
+              <p className="text-sm text-gray-700 text-center">
+                {product.price}
+              </p>
             </Link>
           ))}
         </div>
