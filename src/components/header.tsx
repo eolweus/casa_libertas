@@ -184,6 +184,7 @@ export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [isPastHero, setIsPastHero] = useState(false);
 
   const handleMouseEnter = (item: string) => {
     setActiveMenu(item);
@@ -196,18 +197,30 @@ export default function Header() {
   useEffect(() => {
     const controlHeader = () => {
       const currentScrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+
+      // Check if scrolled past 100vh
+      setIsPastHero(currentScrollY > viewportHeight);
 
       // Show header when scrolling up, hide when scrolling down
-      if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+      if (currentScrollY < lastScrollY) {
         setIsVisible(true);
-      } else {
+      } else if (currentScrollY > lastScrollY) {
         setIsVisible(false);
+      }
+
+      // Always show header at top of page
+      if (currentScrollY <= 0) {
+        setIsVisible(true);
       }
 
       setLastScrollY(currentScrollY);
     };
 
     window.addEventListener("scroll", controlHeader);
+
+    // Initial check
+    controlHeader();
 
     // Cleanup
     return () => {
@@ -219,7 +232,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "-translate-y-full"
-      } ${activeMenu ? "bg-white" : "bg-transparent"}`}
+      } ${activeMenu || isPastHero ? "bg-white" : "bg-transparent"}`}
     >
       <div className="mx-auto px-4">
         <div className="flex items-center justify-between py-4">
@@ -228,7 +241,7 @@ export default function Header() {
             <Link
               href="#"
               className={`text-sm hover:opacity-70 ${
-                activeMenu ? "text-black" : "text-white"
+                activeMenu || isPastHero ? "text-black" : "text-white"
               }`}
             >
               <MapPin className="h-5 w-5" />
@@ -237,7 +250,7 @@ export default function Header() {
             <Link
               href="#"
               className={`text-sm hover:opacity-70 ${
-                activeMenu ? "text-black" : "text-white"
+                activeMenu || isPastHero ? "text-black" : "text-white"
               }`}
             >
               <User className="h-5 w-5" />
@@ -250,7 +263,7 @@ export default function Header() {
             <Link href="/" className="inline-block">
               <h1
                 className={`text-2xl font-light tracking-widest ${
-                  activeMenu ? "text-black" : "text-white"
+                  activeMenu || isPastHero ? "text-black" : "text-white"
                 }`}
               >
                 CASA LIBERTAS
@@ -262,7 +275,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <button
               className={`text-sm hover:opacity-70 ${
-                activeMenu ? "text-black" : "text-white"
+                activeMenu || isPastHero ? "text-black" : "text-white"
               }`}
             >
               <Search className="h-5 w-5" />
@@ -271,7 +284,7 @@ export default function Header() {
             <Link
               href="#"
               className={`text-sm hover:opacity-70 ${
-                activeMenu ? "text-black" : "text-white"
+                activeMenu || isPastHero ? "text-black" : "text-white"
               }`}
             >
               <Heart className="h-5 w-5" />
@@ -280,7 +293,7 @@ export default function Header() {
             <Link
               href="#"
               className={`text-sm hover:opacity-70 ${
-                activeMenu ? "text-black" : "text-white"
+                activeMenu || isPastHero ? "text-black" : "text-white"
               }`}
             >
               <ShoppingBag className="h-5 w-5" />
@@ -305,7 +318,7 @@ export default function Header() {
                 className={`hover:opacity-70 ${
                   activeMenu === item.name
                     ? "border-b border-black text-black"
-                    : activeMenu
+                    : activeMenu || isPastHero
                     ? "text-black"
                     : "text-white"
                 }`}
@@ -319,7 +332,7 @@ export default function Header() {
         {/* Mega menu dropdown */}
         {activeMenu && menuData[activeMenu] && (
           <div
-            className="w-full "
+            className="w-full transition-opacity duration-300"
             onMouseEnter={() => setActiveMenu(activeMenu)}
             onMouseLeave={handleMouseLeave}
           >
@@ -328,7 +341,7 @@ export default function Header() {
                 {/* Categories */}
                 {activeMenu === "THE HOUSE" ? (
                   <div
-                    className="absolute left-0 right-0 bg-white"
+                    className="absolute left-0 right-0 bg-white transition-opacity duration-300"
                     onMouseEnter={() => setActiveMenu("THE HOUSE")}
                     onMouseLeave={handleMouseLeave}
                   >
