@@ -1,78 +1,99 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 type Product = {
-  id: string
-  title: string
-  price: string
-  image: string
-  href: string
-}
+  id: string;
+  title: string;
+  price: string;
+  image: string;
+  href: string;
+};
 
 interface ProductSliderProps {
-  products: Product[]
-  autoScroll?: boolean
-  scrollSpeed?: number
-  title?: string
+  products: Product[];
+  autoScroll?: boolean;
+  scrollSpeed?: number;
+  title?: string;
 }
 
-export default function ProductSlider({ products, autoScroll = true, scrollSpeed = 30, title }: ProductSliderProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const scrollerRef = useRef<HTMLDivElement>(null)
-  const [clonedProducts, setClonedProducts] = useState<Product[]>([])
+export default function ProductSlider({
+  products,
+  autoScroll = true,
+  scrollSpeed = 30,
+  title,
+}: ProductSliderProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const [clonedProducts, setClonedProducts] = useState<Product[]>([]);
+  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Clone products to create a seamless loop
   useEffect(() => {
-    // Create a duplicate set of products for seamless looping
-    setClonedProducts([...products, ...products])
-  }, [products])
+    setClonedProducts([...products, ...products]);
+  }, [products]);
 
-  // Handle automatic scrolling
+  // Setup and handle the scrolling
   useEffect(() => {
-    if (!autoScroll || isHovered || !containerRef.current || !scrollerRef.current) return
+    if (!autoScroll || !containerRef.current || !scrollerRef.current) return;
 
-    const container = containerRef.current
-    const scroller = scrollerRef.current
-    const scrollWidth = scroller.scrollWidth / 2 // Half because we duplicated the items
+    const container = containerRef.current;
+    const scroller = scrollerRef.current;
+    const scrollWidth = scroller.scrollWidth / 2; // Half because we duplicated the items
 
-    let animationId: number
-    let startTime: number | null = null
-    let currentPosition = 0
+    // Calculate step size based on scrollSpeed (pixels per tick)
+    // At 60fps, scrollSpeed of 30 means 0.5px per frame
+    const stepSize = scrollSpeed / 60;
 
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp
-      const elapsed = timestamp - startTime
-
-      // Calculate new position based on elapsed time and speed
-      currentPosition = ((elapsed * scrollSpeed) / 1000) % scrollWidth
-
-      // Apply the scroll position
-      container.scrollLeft = currentPosition
-
-      // If we've scrolled past the first set of items, reset to beginning of second set
-      if (currentPosition >= scrollWidth) {
-        currentPosition = 0
-        startTime = timestamp
-        container.scrollLeft = 0
+    // Setup the interval for scrolling
+    const startScrolling = () => {
+      // Clear any existing interval
+      if (scrollIntervalRef.current) {
+        clearInterval(scrollIntervalRef.current);
       }
 
-      animationId = requestAnimationFrame(animate)
-    }
+      // Create new interval that runs at 60fps (16.7ms)
+      scrollIntervalRef.current = setInterval(() => {
+        if (isHovered) return; // Don't move while hovering
 
-    animationId = requestAnimationFrame(animate)
+        // Get current scroll position
+        let currentPosition = container.scrollLeft;
 
+        // Increment position by the step size
+        currentPosition += stepSize;
+
+        // Loop back to start if needed
+        if (currentPosition >= scrollWidth) {
+          currentPosition = 0;
+        }
+
+        // Apply the scroll position
+        container.scrollLeft = currentPosition;
+      }, 16.7); // ~60fps
+    };
+
+    // Start the scrolling
+    startScrolling();
+
+    // Cleanup on unmount or when dependencies change
     return () => {
-      cancelAnimationFrame(animationId)
-    }
-  }, [autoScroll, isHovered, scrollSpeed, clonedProducts])
+      if (scrollIntervalRef.current) {
+        clearInterval(scrollIntervalRef.current);
+        scrollIntervalRef.current = null;
+      }
+    };
+  }, [autoScroll, isHovered, scrollSpeed, clonedProducts]);
 
   return (
     <div className="relative py-12">
-      {title && <h2 className="text-2xl font-light tracking-wider text-center mb-8">{title}</h2>}
+      {title && (
+        <h2 className="text-2xl font-light tracking-wider text-center mb-8">
+          {title}
+        </h2>
+      )}
 
       <div
         ref={containerRef}
@@ -83,7 +104,11 @@ export default function ProductSlider({ products, autoScroll = true, scrollSpeed
       >
         <div ref={scrollerRef} className="flex gap-6 px-4 pb-4">
           {clonedProducts.map((product, index) => (
-            <Link key={`${product.id}-${index}`} href={product.href} className="flex-none w-64 group">
+            <Link
+              key={`${product.id}-${index}`}
+              href={product.href}
+              className="flex-none w-64 group"
+            >
               <div className="relative h-80 w-full overflow-hidden mb-3">
                 <Image
                   src={product.image || "/placeholder.svg"}
@@ -99,5 +124,5 @@ export default function ProductSlider({ products, autoScroll = true, scrollSpeed
         </div>
       </div>
     </div>
-  )
+  );
 }
