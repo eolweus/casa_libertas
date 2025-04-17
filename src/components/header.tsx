@@ -12,6 +12,10 @@ type MenuCategory = {
     href: string;
     subItems?: { name: string; href: string }[];
   }[];
+  image?: {
+    src: string;
+    alt: string;
+  };
 };
 
 type MenuProps = {
@@ -121,14 +125,26 @@ const menuData: Record<string, MenuProps> = {
       {
         title: "OUR STORY",
         items: [{ name: "Heritage", href: "#" }],
+        image: {
+          src: "https://images.unsplash.com/photo-1582224998893-dd454978a35c?q=80&w=1587&auto=format&fit=crop",
+          alt: "Our Heritage",
+        },
       },
       {
         title: "CRAFTMANSHIP",
         items: [{ name: "Our Artisans", href: "#" }],
+        image: {
+          src: "https://images.unsplash.com/photo-1635663044663-b0817bee1404?q=80&w=1587&auto=format&fit=crop",
+          alt: "Artisan Craftsmanship",
+        },
       },
       {
         title: "VISIT THE SHOWROOM",
         items: [{ name: "Locations", href: "#" }],
+        image: {
+          src: "https://images.unsplash.com/photo-1600607688960-e095b8862286?q=80&w=1587&auto=format&fit=crop",
+          alt: "Showroom Interior",
+        },
       },
     ],
     featuredImage: {
@@ -286,46 +302,105 @@ export default function Header() {
             <div className="container mx-auto px-4 py-8">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 {/* Categories */}
-                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {menuData[activeMenu].categories.map((category, idx) => (
-                    <div key={idx} className="space-y-4">
-                      <h3 className="font-medium text-sm tracking-wider">
-                        {category.title}
-                      </h3>
-                      <ul className="space-y-4">
-                        {category.items.map((item, itemIdx) => (
-                          <li key={itemIdx}>
-                            <Link
-                              href={item.href}
-                              className="text-sm hover:text-gray-500"
-                            >
-                              {item.name}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
+                {activeMenu === "THE HOUSE" ? (
+                  <div
+                    className="absolute left-0 right-0 bg-white transition-opacity duration-300"
+                    onMouseEnter={() => setActiveMenu("THE HOUSE")}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="max-w-7xl mx-auto px-4 py-12">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {/* Heritage */}
+                        <div className="space-y-4">
+                          <div className="aspect-[5/6] overflow-hidden max-w-[200px] mx-auto">
+                            <img
+                              src="https://images.unsplash.com/photo-1517263904808-5dc91e3e7044?auto=format&fit=crop&q=80&w=800"
+                              alt="Heritage craftsmanship"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                          </div>
+                          <h2 className="text-xl font-light text-center">
+                            Heritage
+                          </h2>
+                        </div>
 
-                {/* Featured image */}
-                {menuData[activeMenu].featuredImage && (
-                  <div className="md:col-span-2">
-                    <div className="relative h-[300px] w-full overflow-hidden">
-                      <Image
-                        src={
-                          menuData[activeMenu].featuredImage!.src ||
-                          "/placeholder.svg"
-                        }
-                        alt={menuData[activeMenu].featuredImage!.alt}
-                        fill
-                        className="object-cover"
-                      />
+                        {/* Craftsmanship */}
+                        <div className="space-y-4">
+                          <div className="aspect-[5/6] overflow-hidden max-w-[200px] mx-auto">
+                            <img
+                              src="https://images.unsplash.com/photo-1459908676235-d5f02a50184b?auto=format&fit=crop&q=80&w=800"
+                              alt="Artisan workshop"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                          </div>
+                          <h2 className="text-xl font-light text-center">
+                            Craftsmanship
+                          </h2>
+                        </div>
+
+                        {/* Showroom */}
+                        <div className="space-y-4">
+                          <div className="aspect-[5/6] overflow-hidden max-w-[200px] mx-auto">
+                            <img
+                              src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&q=80&w=800"
+                              alt="Luxury showroom"
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                            />
+                          </div>
+                          <h2 className="text-xl font-light text-center">
+                            Visit Our Showroom
+                          </h2>
+                        </div>
+                      </div>
                     </div>
-                    <p className="mt-4 text-sm font-medium tracking-wider">
-                      {menuData[activeMenu].featuredImage!.caption}
-                    </p>
                   </div>
+                ) : (
+                  <>
+                    <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-8">
+                      {menuData[activeMenu].categories.map((category, idx) => (
+                        <div key={idx} className="space-y-4">
+                          <h3 className="font-bold text-sm tracking-wider uppercase">
+                            {category.title}
+                          </h3>
+                          <ul className="space-y-4">
+                            {category.items.map((item, itemIdx) => (
+                              <li key={itemIdx}>
+                                <Link
+                                  href={item.href}
+                                  className="text-sm hover:text-gray-500 uppercase"
+                                >
+                                  {item.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Featured image */}
+                    {menuData[activeMenu].featuredImage && (
+                      <div className="md:col-span-2">
+                        <div className="relative h-[450px] w-full overflow-hidden">
+                          <Image
+                            src={
+                              menuData[activeMenu].featuredImage!.src ||
+                              "/placeholder.svg"
+                            }
+                            alt={menuData[activeMenu].featuredImage!.alt}
+                            fill
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/10 hover:bg-black/5 transition-colors duration-300"></div>
+                          <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                            <p className="text-sm font-medium tracking-wider">
+                              {menuData[activeMenu].featuredImage!.caption}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </div>
