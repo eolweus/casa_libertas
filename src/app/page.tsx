@@ -113,7 +113,6 @@ export default function Home() {
         {/* Hero section */}
         <HeroSection
           type="image"
-          // src="https://images.unsplash.com/photo-1664575198308-3959904fa430?q=80&w=1587&auto=format&fit=crop"
           src="https://images.unsplash.com/photo-1664286074240-d7059e004dff?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           title="TIMELESS ELEGANCE"
           subtitle="Discover our new collection of handcrafted masterpieces"
@@ -124,13 +123,11 @@ export default function Home() {
         />
 
         {/* Product Slider */}
-        {/* <div className="mx-auto"> */}
         <ProductSlider
           products={featuredProducts}
           title="FEATURED PIECES"
           autoScroll={true}
         />
-        {/* </div> */}
 
         {/* Split section with image and carousel */}
         <SplitContainer height="80vh">
