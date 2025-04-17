@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Heart, MapPin, Search, ShoppingBag, User } from "lucide-react";
@@ -182,6 +182,8 @@ const menuData: Record<string, MenuProps> = {
 
 export default function Header() {
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const handleMouseEnter = (item: string) => {
     setActiveMenu(item);
@@ -191,11 +193,33 @@ export default function Header() {
     setActiveMenu(null);
   };
 
+  useEffect(() => {
+    const controlHeader = () => {
+      const currentScrollY = window.scrollY;
+
+      // Show header when scrolling up, hide when scrolling down
+      if (currentScrollY < lastScrollY || currentScrollY <= 0) {
+        setIsVisible(true);
+      } else {
+        setIsVisible(false);
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", controlHeader);
+
+    // Cleanup
+    return () => {
+      window.removeEventListener("scroll", controlHeader);
+    };
+  }, [lastScrollY]);
+
   return (
     <header
-      className={`absolute top-0 left-0 right-0 z-50 ${
-        activeMenu ? "bg-white" : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transform transition-transform duration-300 ${
+        isVisible ? "translate-y-0" : "-translate-y-full"
+      } ${activeMenu ? "bg-white" : "bg-transparent"}`}
     >
       <div className="mx-auto px-4">
         <div className="flex items-center justify-between py-4">
