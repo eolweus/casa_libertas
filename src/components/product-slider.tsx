@@ -29,12 +29,35 @@ export default function ProductSlider({
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [clonedProducts, setClonedProducts] = useState<Product[]>([]);
-  const scrollIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const scrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const isInitializedRef = useRef(false);
 
-  // Clone products to create a seamless loop
+  // Clone products to create a seamless loop - use three sets for smooth transition
   useEffect(() => {
-    setClonedProducts([...products, ...products]);
+    setClonedProducts([...products, ...products, ...products]);
+    // Reset the initialization flag when products change
+    isInitializedRef.current = false;
   }, [products]);
+
+  // Handle initial positioning - separate from animation
+  useEffect(() => {
+    if (
+      !containerRef.current ||
+      !scrollerRef.current ||
+      isInitializedRef.current
+    )
+      return;
+
+    const container = containerRef.current;
+    const scroller = scrollerRef.current;
+
+    // Only set this once after products are loaded and DOM is ready
+    if (scroller.scrollWidth > 0) {
+      const singleSetWidth = scroller.scrollWidth / 3;
+      container.scrollLeft = singleSetWidth;
+      isInitializedRef.current = true;
+    }
+  }, [clonedProducts]);
 
   // Setup and handle the scrolling
   useEffect(() => {
@@ -42,10 +65,9 @@ export default function ProductSlider({
 
     const container = containerRef.current;
     const scroller = scrollerRef.current;
-    const scrollWidth = scroller.scrollWidth / 2; // Half because we duplicated the items
+    const singleSetWidth = scroller.scrollWidth / 3; // One third because we have three sets
 
     // Calculate step size based on scrollSpeed (pixels per tick)
-    // At 60fps, scrollSpeed of 30 means 0.5px per frame
     const stepSize = scrollSpeed / 60;
 
     // Setup the interval for scrolling
@@ -57,7 +79,7 @@ export default function ProductSlider({
 
       // Create new interval that runs at 60fps (16.7ms)
       scrollIntervalRef.current = setInterval(() => {
-        if (isHovered) return; // Don't move while hovering
+        if (isHovered || !container) return; // Don't move while hovering
 
         // Get current scroll position
         let currentPosition = container.scrollLeft;
@@ -65,13 +87,15 @@ export default function ProductSlider({
         // Increment position by the step size
         currentPosition += stepSize;
 
-        // Loop back to start if needed
-        if (currentPosition >= scrollWidth) {
-          currentPosition = 0;
+        // If we approach the end of the middle set, jump back to the same position in the first set
+        if (currentPosition >= singleSetWidth * 2) {
+          currentPosition = currentPosition - singleSetWidth;
+          // Apply jump immediately - this happens so fast it's invisible to the user
+          container.scrollLeft = currentPosition;
+        } else {
+          // Normal smooth scrolling
+          container.scrollLeft = currentPosition;
         }
-
-        // Apply the scroll position
-        container.scrollLeft = currentPosition;
       }, 16.7); // ~60fps
     };
 
