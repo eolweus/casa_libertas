@@ -173,7 +173,7 @@ const menuData: Record<string, MenuProps> = {
       },
     ],
     featuredImage: {
-      src: "https://images.unsplash.com/photo-1585760656355-fef034b35371?q=80&w=1587&auto=format&fit=crop",
+      src: "https://images.unsplash.com/photo-1713897564450-7e7d82ddc4c3?q=80&w=1587&auto=format&fit=crop",
       alt: "Polo Event",
       caption: "DISCOVER THE WORLD OF LIBERTAS",
     },
@@ -193,7 +193,7 @@ export default function Header() {
 
   return (
     <header
-      className={`absolute top-0 left-0 right-0 z-50 transition-colors duration-300 ${
+      className={`absolute top-0 left-0 right-0 z-50 ${
         activeMenu ? "bg-white" : "bg-transparent"
       }`}
     >
@@ -295,7 +295,7 @@ export default function Header() {
         {/* Mega menu dropdown */}
         {activeMenu && menuData[activeMenu] && (
           <div
-            className="w-full transition-opacity duration-300"
+            className="w-full "
             onMouseEnter={() => setActiveMenu(activeMenu)}
             onMouseLeave={handleMouseLeave}
           >
@@ -304,7 +304,7 @@ export default function Header() {
                 {/* Categories */}
                 {activeMenu === "THE HOUSE" ? (
                   <div
-                    className="absolute left-0 right-0 bg-white transition-opacity duration-300"
+                    className="absolute left-0 right-0 bg-white"
                     onMouseEnter={() => setActiveMenu("THE HOUSE")}
                     onMouseLeave={handleMouseLeave}
                   >
