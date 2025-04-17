@@ -130,7 +130,7 @@ export default function Home() {
         />
 
         {/* Split section with image and carousel */}
-        <SplitContainer height="80vh">
+        <SplitContainer height="90vh">
           <div className="relative h-full w-full">
             <Image
               src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1587&auto=format&fit=crop"
@@ -151,28 +151,37 @@ export default function Home() {
         </SplitContainer>
 
         {/* Split section with carousel then image */}
-        <SplitContainer height="80vh" reverse={true}>
+        <SplitContainer height="90vh" reverse={true}>
           <div className="relative h-full w-full">
-            <Image
+            {/* <Image
               src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?q=80&w=1587&auto=format&fit=crop"
               alt="Luxury watches"
               fill
               className="object-cover"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+            <div></div>
+            <div className="absolute inset-0 flex items-end justify-center mb-12 ">
               <Link
                 href="#"
                 className="border border-white bg-black/30 px-8 py-3 text-sm uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black"
               >
                 DISCOVER WATCHES
               </Link>
-            </div>
+            </div> */}
+
+            <HeroSection
+              type="image"
+              src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?q=80&w=1587&auto=format&fit=crop"
+              buttons={[{ label: "Discover Watches", href: "#" }]}
+              objectPosition="bottom"
+              height="100%"
+            />
           </div>
           <ProductCarousel items={watchesCarouselItems} />
         </SplitContainer>
 
         {/* Split section with two subsections - one with minimal style, one with default */}
-        <SplitContainer height="80vh">
+        <SplitContainer height="90vh">
           <CollectionLink
             image="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=1587&auto=format&fit=crop"
             title="BRIDAL COLLECTION"
