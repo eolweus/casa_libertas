@@ -1,22 +1,22 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import Link from "next/link"
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 type ButtonLink = {
-  label: string
-  href: string
-}
+  label: string;
+  href: string;
+};
 
 interface HeroSectionProps {
-  type: "image" | "video"
-  src: string
-  title?: string
-  subtitle?: string
-  buttons?: ButtonLink[]
-  height?: string
-  objectPosition?: string
+  type: "image" | "video";
+  src: string;
+  title?: string;
+  subtitle?: string;
+  buttons?: ButtonLink[];
+  height?: string;
+  objectPosition?: string;
 }
 
 export default function HeroSection({
@@ -28,11 +28,11 @@ export default function HeroSection({
   height = "100vh",
   objectPosition = "center",
 }: HeroSectionProps) {
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true)
-  }, [])
+    setIsLoaded(true);
+  }, []);
 
   return (
     <section className="relative w-full overflow-hidden" style={{ height }}>
@@ -43,7 +43,9 @@ export default function HeroSection({
             alt={title || "Hero image"}
             fill
             priority
-            className={`object-cover transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+            className={`object-cover transition-opacity duration-1000 ${
+              isLoaded ? "opacity-100" : "opacity-0"
+            }`}
             style={{ objectPosition }}
             onLoad={() => setIsLoaded(true)}
           />
@@ -71,8 +73,16 @@ export default function HeroSection({
       {/* Updated positioning to align content lower */}
       <div className="absolute inset-0 flex flex-col items-center justify-end text-center text-white pb-24 md:pb-32">
         <div className="max-w-4xl px-4">
-          {title && <h2 className="mb-4 text-3xl font-light tracking-wider md:text-4xl lg:text-5xl">{title}</h2>}
-          {subtitle && <p className="mb-8 text-base font-light md:text-lg lg:text-xl">{subtitle}</p>}
+          {title && (
+            <h2 className="mb-4 text-3xl font-light tracking-wider md:text-4xl lg:text-5xl">
+              {title}
+            </h2>
+          )}
+          {subtitle && (
+            <p className="mb-8 text-base font-light md:text-lg lg:text-xl">
+              {subtitle}
+            </p>
+          )}
           {buttons.length > 0 && (
             <div className="flex flex-wrap justify-center gap-4">
               {buttons.map((button, index) => (
@@ -89,5 +99,5 @@ export default function HeroSection({
         </div>
       </div>
     </section>
-  )
+  );
 }
