@@ -31,85 +31,119 @@ export default function ProductSlider({
   const [clonedProducts, setClonedProducts] = useState<Product[]>([]);
   const scrollIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isInitializedRef = useRef(false);
+  const isJumpingRef = useRef(false);
+  const lastScrollLeftRef = useRef(0);
 
-  // Clone products to create a seamless loop - use three sets for smooth transition
+  // Clone products to create a seamless loop
   useEffect(() => {
+    if (products.length === 0) return;
     setClonedProducts([...products, ...products, ...products]);
-    // Reset the initialization flag when products change
     isInitializedRef.current = false;
   }, [products]);
 
-  // Handle initial positioning - separate from animation
+  // Handle initial positioning
   useEffect(() => {
     if (
       !containerRef.current ||
       !scrollerRef.current ||
+      products.length === 0 ||
       isInitializedRef.current
-    )
+    ) {
+      return;
+    }
+
+    // Wait for DOM to be ready with cloned products
+    setTimeout(() => {
+      if (!containerRef.current || !scrollerRef.current) return;
+
+      const container = containerRef.current;
+      const scroller = scrollerRef.current;
+
+      if (scroller.scrollWidth > 0) {
+        const singleSetWidth = scroller.scrollWidth / 3;
+        container.scrollLeft = singleSetWidth;
+        lastScrollLeftRef.current = singleSetWidth;
+        isInitializedRef.current = true;
+      }
+    }, 100);
+  }, [clonedProducts, products.length]);
+
+  // Handle infinite scrolling
+  useEffect(() => {
+    if (!containerRef.current || !scrollerRef.current || products.length === 0)
       return;
 
     const container = containerRef.current;
     const scroller = scrollerRef.current;
+    const singleSetWidth = scroller.scrollWidth / 3;
 
-    // Only set this once after products are loaded and DOM is ready
-    if (scroller.scrollWidth > 0) {
-      const singleSetWidth = scroller.scrollWidth / 3;
-      container.scrollLeft = singleSetWidth;
+    // Initialize to the third set instead of the middle set
+    if (isInitializedRef.current === false && scroller.scrollWidth > 0) {
+      container.scrollLeft = singleSetWidth * 2; // Start at the third set
+      lastScrollLeftRef.current = singleSetWidth * 2;
       isInitializedRef.current = true;
     }
-  }, [clonedProducts]);
 
-  // Setup and handle the scrolling
-  useEffect(() => {
-    if (!autoScroll || !containerRef.current || !scrollerRef.current) return;
+    let scrollAnimationId: number | null = null;
 
-    const container = containerRef.current;
-    const scroller = scrollerRef.current;
-    const singleSetWidth = scroller.scrollWidth / 3; // One third because we have three sets
+    // Function to check and handle infinite scrolling
+    const checkAndUpdateScroll = () => {
+      if (isJumpingRef.current) return;
 
-    // Calculate step size based on scrollSpeed (pixels per tick)
-    const stepSize = scrollSpeed / 60;
+      const currentScrollLeft = container.scrollLeft;
 
-    // Setup the interval for scrolling
-    const startScrolling = () => {
-      // Clear any existing interval
-      if (scrollIntervalRef.current) {
-        clearInterval(scrollIntervalRef.current);
+      // Reverse the logic - check first set when scrolling forward
+      if (currentScrollLeft <= singleSetWidth - 5) {
+        isJumpingRef.current = true;
+        container.scrollLeft = currentScrollLeft + singleSetWidth;
+        isJumpingRef.current = false;
+      }
+      // Check third set when scrolling backward
+      else if (currentScrollLeft >= singleSetWidth * 2 - 5) {
+        isJumpingRef.current = true;
+        container.scrollLeft = currentScrollLeft - singleSetWidth;
+        isJumpingRef.current = false;
       }
 
-      // Create new interval that runs at 60fps (16.7ms)
-      scrollIntervalRef.current = setInterval(() => {
-        if (isHovered || !container) return; // Don't move while hovering
-
-        // Get current scroll position
-        let currentPosition = container.scrollLeft;
-
-        // Increment position by the step size
-        currentPosition += stepSize;
-
-        // If we approach the end of the middle set, jump back to the same position in the first set
-        if (currentPosition >= singleSetWidth * 2) {
-          currentPosition = currentPosition - singleSetWidth;
-          // Apply jump immediately - this happens so fast it's invisible to the user
-          container.scrollLeft = currentPosition;
-        } else {
-          // Normal smooth scrolling
-          container.scrollLeft = currentPosition;
-        }
-      }, 16.7); // ~60fps
+      lastScrollLeftRef.current = container.scrollLeft;
     };
 
-    // Start the scrolling
-    startScrolling();
+    // Setup auto scrolling with requestAnimationFrame for smoother performance
+    const scrollAnimation = () => {
+      if (!isHovered && !isJumpingRef.current && container) {
+        // Move the scroll position forward
+        container.scrollLeft += scrollSpeed / 60;
 
-    // Cleanup on unmount or when dependencies change
+        // Check if we need to loop back
+        checkAndUpdateScroll();
+      }
+
+      // Continue the animation
+      scrollAnimationId = requestAnimationFrame(scrollAnimation);
+    };
+
+    // Start auto-scrolling with requestAnimationFrame
+    if (autoScroll) {
+      scrollAnimationId = requestAnimationFrame(scrollAnimation);
+    }
+
+    // Setup scroll event listener for manual scrolling
+    container.addEventListener("scroll", checkAndUpdateScroll, {
+      passive: true,
+    });
+
+    // Cleanup
     return () => {
+      container.removeEventListener("scroll", checkAndUpdateScroll);
+      if (scrollAnimationId) {
+        cancelAnimationFrame(scrollAnimationId);
+      }
       if (scrollIntervalRef.current) {
         clearInterval(scrollIntervalRef.current);
         scrollIntervalRef.current = null;
       }
     };
-  }, [autoScroll, isHovered, scrollSpeed, clonedProducts]);
+  }, [autoScroll, scrollSpeed, isHovered, clonedProducts, products.length]);
 
   return (
     <div className="relative py-12">
