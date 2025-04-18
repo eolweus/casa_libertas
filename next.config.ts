@@ -5,10 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["images.unsplash.com"],
   },
-  // Set the server to use port 3001
-  experimental: {
-    customServer: true,
-  },
+  // For custom port configuration
   serverRuntimeConfig: {
     port: 3001,
   },
