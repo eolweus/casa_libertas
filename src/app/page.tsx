@@ -155,23 +155,8 @@ export default function Home() {
 
         {/* Split section with carousel then image */}
         <SplitContainer height="90vh">
+          <ProductCarousel items={watchesCarouselItems} />
           <div className="relative h-full w-full">
-            {/* <Image
-              src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?q=80&w=1587&auto=format&fit=crop"
-              alt="Luxury watches"
-              fill
-              className="object-cover"
-            />
-            <div></div>
-            <div className="absolute inset-0 flex items-end justify-center mb-12 ">
-              <Link
-                href="#"
-                className="border border-white bg-black/30 px-8 py-3 text-sm uppercase tracking-wider text-white transition-colors hover:bg-white hover:text-black"
-              >
-                DISCOVER WATCHES
-              </Link>
-            </div> */}
-
             <HeroSection
               type="image"
               src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?q=80&w=1587&auto=format&fit=crop"
@@ -180,7 +165,6 @@ export default function Home() {
               height="100%"
             />
           </div>
-          <ProductCarousel items={watchesCarouselItems} />
         </SplitContainer>
 
         {/* Split section with two subsections - one with minimal style, one with default */}
