@@ -201,49 +201,23 @@ export default function Home() {
 
         {/* Featured categories - keeping this section from the previous design */}
         <section className="py-16 md:py-24">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center text-3xl font-light mb-12 tracking-wider">
-              ICONIC COLLECTIONS
-            </h2>
-            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {["Necklaces", "Rings", "Bracelets"].map((category) => (
-                <div key={category} className="group relative">
-                  <div className="relative h-[400px] w-full overflow-hidden">
-                    <Image
-                      src={`/placeholder.svg?height=800&width=600&text=${category}`}
-                      alt={category}
-                      fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="mt-4 text-center">
-                    <h3 className="text-xl font-light tracking-wider">
-                      {category.toUpperCase()}
-                    </h3>
-                    <Link
-                      href="#"
-                      className="mt-2 inline-flex items-center text-sm hover:underline"
-                    >
-                      Discover <ChevronRight className="h-4 w-4 ml-1" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div> */}
-            <SplitContainer height="70vh">
+          <div className="w-full mx-auto px-4 flex flex-col md:flex-row justify-center gap-6">
+            <div className="w-full md:w-1/3 flex-shrink-0 max-w-md mx-auto">
               <CategoryCard
                 image="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=1587&auto=format&fit=crop"
                 title="EQUUS COLLECTION"
                 href="#"
                 buttonText="SHOP NOW"
               />
+            </div>
+            <div className="w-full md:w-1/3 flex-shrink-0 max-w-md mx-auto">
               <CategoryCard
                 image="https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1587&auto=format&fit=crop"
                 title="PALM BEACH COLLECTION"
                 href="#"
                 buttonText="SHOP NOW"
               />
-            </SplitContainer>
+            </div>
           </div>
         </section>
         <Newsletter />
