@@ -4,10 +4,12 @@ import SplitContainer from "@/components/split-container";
 import CollectionLink from "@/components/collection-link";
 import ProductSlider from "@/components/product-slider";
 import Footer from "@/components/footer";
+import Newsletter from "@/components/newsletter";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import "@/styles/scrollbar-hide.css";
+import CategoryCard from "@/components/ui/category-card";
 
 // Sample data for the product slider
 const featuredProducts = [
@@ -152,7 +154,7 @@ export default function Home() {
         </SplitContainer>
 
         {/* Split section with carousel then image */}
-        <SplitContainer height="90vh" reverse={true}>
+        <SplitContainer height="90vh">
           <div className="relative h-full w-full">
             {/* <Image
               src="https://images.unsplash.com/photo-1619946794135-5bc917a27793?q=80&w=1587&auto=format&fit=crop"
@@ -203,7 +205,7 @@ export default function Home() {
             <h2 className="text-center text-3xl font-light mb-12 tracking-wider">
               ICONIC COLLECTIONS
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {["Necklaces", "Rings", "Bracelets"].map((category) => (
                 <div key={category} className="group relative">
                   <div className="relative h-[400px] w-full overflow-hidden">
@@ -227,39 +229,25 @@ export default function Home() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Newsletter */}
-        <section className="bg-gray-50 py-16">
-          <div className="container mx-auto px-4 max-w-xl text-center">
-            <h2 className="text-2xl font-light tracking-wider mb-4">
-              JOIN OUR WORLD
-            </h2>
-            <p className="text-gray-600 mb-8">
-              Subscribe to receive updates on our latest collections and
-              exclusive events.
-            </p>
-            <form className="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 border border-gray-300 px-4 py-3 focus:outline-none focus:ring-1 focus:ring-black"
-                required
+            </div> */}
+            <SplitContainer height="70vh">
+              <CategoryCard
+                image="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=1587&auto=format&fit=crop"
+                title="EQUUS COLLECTION"
+                href="#"
+                buttonText="SHOP NOW"
               />
-              <button
-                type="submit"
-                className="bg-black text-white px-8 py-3 text-sm hover:bg-gray-800 transition-colors"
-              >
-                SUBSCRIBE
-              </button>
-            </form>
+              <CategoryCard
+                image="https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1587&auto=format&fit=crop"
+                title="PALM BEACH COLLECTION"
+                href="#"
+                buttonText="SHOP NOW"
+              />
+            </SplitContainer>
           </div>
         </section>
+        <Newsletter />
       </main>
-
-      {/* Footer */}
       <Footer />
     </div>
   );
