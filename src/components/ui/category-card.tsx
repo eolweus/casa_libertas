@@ -15,9 +15,12 @@ export default function CategoryCard({
   buttonText = "SHOP NOW",
 }: CategoryCardProps) {
   return (
-    <div className="flex flex-col items-center justify-center w-full h-full px-4 md:px-8">
+    <div className="flex flex-col items-center justify-center w-full h-full px-4 md:px-8 py-6">
       <div className="w-full max-w-sm mx-auto flex flex-col items-center">
-        <div className="relative aspect-square w-full overflow-hidden">
+        <div
+          className="relative w-full overflow-hidden"
+          style={{ aspectRatio: "1/1.2" }}
+        >
           <Image
             src={image || "/placeholder.svg"}
             alt={title}

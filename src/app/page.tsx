@@ -200,9 +200,9 @@ export default function Home() {
         </SplitContainer>
 
         {/* Featured categories - keeping this section from the previous design */}
-        <section className="py-16 md:py-24">
-          <div className="w-full mx-auto px-4 flex flex-col md:flex-row justify-center gap-6">
-            <div className="w-full md:w-1/3 flex-shrink-0 max-w-md mx-auto">
+        <section className="py-24">
+          <div className="mx-auto px-4 flex flex-col md:flex-row justify-center gap-3 max-w-5xl">
+            <div className="md:w-1/2 flex-shrink-0 max-w-lg mx-auto">
               <CategoryCard
                 image="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=1587&auto=format&fit=crop"
                 title="EQUUS COLLECTION"
@@ -210,7 +210,7 @@ export default function Home() {
                 buttonText="SHOP NOW"
               />
             </div>
-            <div className="w-full md:w-1/3 flex-shrink-0 max-w-md mx-auto">
+            <div className="md:w-1/2 flex-shrink-0 max-w-lg mx-auto">
               <CategoryCard
                 image="https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=1587&auto=format&fit=crop"
                 title="PALM BEACH COLLECTION"
